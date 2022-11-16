@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <>
       <CenteredContainer>
         <CenteredDiv>
           <h1>MyWallet</h1>
+          <StyledInput placeholder="Nome"></StyledInput>
           <StyledInput placeholder="E-mail"></StyledInput>
           <StyledInput placeholder="Senha"></StyledInput>
-          <StyledButton>Entrar</StyledButton>
-          <Link to={'/register'}>Primeira vez? Cadastre-se</Link>
+          <StyledInput placeholder="Confirme a senha"></StyledInput>
+          <StyledButton>Cadastrar</StyledButton>
+          <Link to={'/'}>Já tem uma conta? Entre agora!</Link>
         </CenteredDiv>
       </CenteredContainer>
     </>
