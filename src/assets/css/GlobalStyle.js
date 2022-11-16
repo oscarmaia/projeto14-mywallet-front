@@ -1,5 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 
+// font-family: 'Raleway', sans-serif;
+// font-family: 'Saira Stencil One', cursive; - Logo Font
+
 const GlobalStyle = createGlobalStyle`
 
     html, body, div, span, applet, object, iframe,
@@ -28,6 +31,7 @@ const GlobalStyle = createGlobalStyle`
         display: block;
     }
     body {
+        font-family: 'Raleway', sans-serif;
         line-height: 1;
         background-color: #8C11BE;
     }
