@@ -8,7 +8,7 @@ export default function LoginPage() {
           <h1>MyWallet</h1>
           <StyledInput placeholder="E-mail"></StyledInput>
           <StyledInput placeholder="Senha"></StyledInput>
-          <StyledButton>Entrar</StyledButton>
+          <Link to={'/main'}><StyledButton>Entrar</StyledButton></Link>
           <Link to={'/register'}>Primeira vez? Cadastre-se</Link>
         </CenteredDiv>
       </CenteredContainer>
