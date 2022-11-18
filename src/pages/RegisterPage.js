@@ -8,7 +8,7 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   function register(e){
     e.preventDefault();
-    if(form.password != form._password){
+    if(form.password !== form._password){
       alert("Password has to be the same!")
     }else{
       const request = {...form}

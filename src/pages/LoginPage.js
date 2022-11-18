@@ -1,14 +1,36 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { BASE_URL } from "../contants/url";
 export default function LoginPage() {
+  const [form, setForm] = useState({ email: '', password: '' });
+  const navigate = useNavigate()
+  function tryToLogin(e){
+    e.preventDefault();
+    console.log('enviar reqeuts')
+    axios.post(`${BASE_URL}/sign-in`,form)
+    .then(res=>{
+      navigate('/main')
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  }
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    console.log(`${e.target.name}: ${e.target.value}`)
+  }
   return (
     <>
       <CenteredContainer>
         <CenteredDiv>
           <h1>MyWallet</h1>
-          <StyledInput placeholder="E-mail"></StyledInput>
-          <StyledInput placeholder="Senha"></StyledInput>
-          <Link to={'/main'}><StyledButton>Entrar</StyledButton></Link>
+          <form onSubmit={tryToLogin}>
+            <StyledInput placeholder="E-mail" name="email" type="email" value={form.email} required onChange={handleChange} />
+            <StyledInput placeholder="Senha" name="password" type="password" value={form.password} required onChange={handleChange} />
+            <StyledButton type="submit">Entrar</StyledButton>
+          </form>
           <Link to={'/register'}>Primeira vez? Cadastre-se</Link>
         </CenteredDiv>
       </CenteredContainer>
