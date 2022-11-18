@@ -1,22 +1,51 @@
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from 'axios';
+import { BASE_URL } from "../contants/url";
 export default function RegisterPage() {
+  const [form,setForm] = useState({name:'',email:'',password:'',_password:''});
+  const navigate = useNavigate();
+  function register(e){
+    e.preventDefault();
+    if(form.password != form._password){
+      alert("Password has to be the same!")
+    }else{
+      const request = {...form}
+      delete request._password;
+      console.log(request)
+      axios.post(`${BASE_URL}/sign-up`,request)
+      .then(res=>{
+        navigate('/');
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
+  }
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+}
   return (
     <>
       <CenteredContainer>
         <CenteredDiv>
           <h1>MyWallet</h1>
-          <StyledInput placeholder="Nome"></StyledInput>
-          <StyledInput placeholder="E-mail"></StyledInput>
-          <StyledInput placeholder="Senha"></StyledInput>
-          <StyledInput placeholder="Confirme a senha"></StyledInput>
-          <StyledButton>Cadastrar</StyledButton>
-          <Link to={'/'}>Já tem uma conta? Entre agora!</Link>
+          <form onSubmit={register}>
+            <StyledInput placeholder="Nome" type="text" name="name" value={form.name} required onChange={handleChange}/>
+            <StyledInput placeholder="E-mail" type="email" name="email" value={form.email} required onChange={handleChange}/>
+            <StyledInput placeholder="Senha" type="password" name="password" value={form.password} required onChange={handleChange}/>
+            <StyledInput placeholder="Confirme a senha" type="password" name="_password" value={form._password} required onChange={handleChange}/>
+            <StyledButton type="submit">Cadastrar</StyledButton>
+            <Link to={'/'}>Já tem uma conta? Entre agora!</Link>
+          </form>
         </CenteredDiv>
       </CenteredContainer>
     </>
   );
 }
+
+
 
 const CenteredContainer = styled.div`
   width: 326px;
