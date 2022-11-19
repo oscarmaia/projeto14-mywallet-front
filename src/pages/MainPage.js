@@ -28,6 +28,8 @@ export default function MainPage() {
                     console.log(err)
                 })
             setShowPage(true)
+        }else{
+            navigate('/')
         }
     }, [])
 
