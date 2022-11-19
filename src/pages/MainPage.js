@@ -2,34 +2,71 @@ import styled from "styled-components";
 import exitImage from "../assets/images/exit-outline.svg"
 import entryImage from "../assets/images/entry.svg"
 import expenseImage from "../assets/images/expense.svg"
+import { useContext, useEffect, useState } from "react";
+import { LoginContext } from "../contexts/LoginContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../contants/url";
 export default function MainPage() {
-    return (
-        <>
-            <CenteredContainer>
-                <CenteredDiv>
-                    <TopContainer>
-                        <h1>Olá Fulano</h1>
-                        <img src={exitImage}></img>
-                    </TopContainer>
-                    <MainContainer>
-                        <h2>
-                            Não há registros de entrada ou saída
-                        </h2>
-                    </MainContainer>
-                    <ButtonsContainer>
-                        <InputButton>
-                        <img src={entryImage}></img>
-                        <span>Nova Entrada</span>
-                        </InputButton>
-                        <InputButton>
-                        <img src={expenseImage}></img>
-                        <span>Nova Saída</span>
-                        </InputButton>
-                    </ButtonsContainer>
-                </CenteredDiv>
-            </CenteredContainer>
-        </>
-    );
+    const { user, setUser } = useContext(LoginContext);
+    const navigate = useNavigate();
+    const [showPage, setShowPage] = useState(false);
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            const config = {
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            };
+            axios.get(`${BASE_URL}/main`, config)
+                .then(res => {
+                    const newUser = res.data;
+                    console.log(newUser);
+                    setUser(newUser);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            setShowPage(true)
+        }
+    }, [])
+
+
+    if (!showPage) {
+        return (
+            <>
+            </>
+        )
+    }
+    else {
+        return (
+            <>
+                <CenteredContainer>
+                    <CenteredDiv>
+                        <TopContainer>
+                            <h1>Olá {user.name}</h1>
+                            <img src={exitImage}></img>
+                        </TopContainer>
+                        <MainContainer>
+                            <h2>
+                                Não há registros de entrada ou saída
+                            </h2>
+                        </MainContainer>
+                        <ButtonsContainer>
+                            <InputButton>
+                                <img src={entryImage}></img>
+                                <span>Nova Entrada</span>
+                            </InputButton>
+                            <InputButton>
+                                <img src={expenseImage}></img>
+                                <span>Nova Saída</span>
+                            </InputButton>
+                        </ButtonsContainer>
+                    </CenteredDiv>
+                </CenteredContainer>
+            </>
+        );
+    }
 }
 
 const ButtonsContainer = styled.div`

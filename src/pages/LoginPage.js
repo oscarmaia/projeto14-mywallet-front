@@ -1,26 +1,47 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { BASE_URL } from "../contants/url";
+import { LoginContext } from "../contexts/LoginContext";
 export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
+  const { user, setUser } = useContext(LoginContext);
   const navigate = useNavigate()
-  function tryToLogin(e){
+
+  function tryToLogin(e) {
     e.preventDefault();
-    console.log('enviar reqeuts')
-    axios.post(`${BASE_URL}/sign-in`,form)
-    .then(res=>{
-      navigate('/main')
-    })
-    .catch(err=>{
-      console.log(err)
-    })
+    axios.post(`${BASE_URL}/sign-in`, form)
+      .then(res => {
+        console.log(res)
+        const token = res.data.token;
+        const newUser={
+          token
+        }
+        setUser(newUser);
+        localStorage.setItem("token",token)
+        navigate('/main')
+      })
+      .catch(err => {
+        console.log(err)
+        alert(err.response.data)
+      })
   }
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
-    console.log(`${e.target.name}: ${e.target.value}`)
   }
+
+  useEffect(()=>{
+    if(localStorage.getItem('token')){
+      const newUser = {
+        token: localStorage.getItem('token')
+      }
+      setUser(newUser)
+      console.log(newUser)
+      navigate('/main');
+    }
+  },[])
+
   return (
     <>
       <CenteredContainer>
