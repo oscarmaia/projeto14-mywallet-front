@@ -63,7 +63,7 @@ export default function MainPage() {
         if (localStorage.getItem('token')) {
             const config = {
                 headers: {
-                    token: localStorage.getItem('token')
+                    token: `Bearer ${localStorage.getItem('token')}`
                 }
             };
             axios.get(`${BASE_URL}/main`, config)
