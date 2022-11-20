@@ -25,6 +25,7 @@ export default function IncomingPage() {
         navigate('/main')
       })
       .catch(err => {
+        localStorage.clear();
         alert(err.response.data)
       })
   }

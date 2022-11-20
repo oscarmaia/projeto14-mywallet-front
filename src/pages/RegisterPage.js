@@ -20,6 +20,7 @@ export default function RegisterPage() {
           navigate('/');
         })
         .catch(err => {
+          localStorage.clear();
           alert(err.response.data)
         })
     }

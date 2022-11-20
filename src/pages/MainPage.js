@@ -45,6 +45,7 @@ export default function MainPage() {
                     navigate('/');
                 })
                 .catch(err => {
+                    localStorage.clear();
                     alert(err.response.data);
                 })
         }
@@ -71,6 +72,7 @@ export default function MainPage() {
                     setShowPage(true);
                 })
                 .catch(err => {
+                    localStorage.clear();
                     alert(err.response.data);
                 })
         } else {
