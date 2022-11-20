@@ -20,7 +20,7 @@ export default function RegisterPage() {
           navigate('/');
         })
         .catch(err => {
-          console.log(err)
+          alert(err.response.data)
         })
     }
   }
