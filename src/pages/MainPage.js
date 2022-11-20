@@ -16,52 +16,24 @@ export default function MainPage() {
     const navigate = useNavigate();
     const [showPage, setShowPage] = useState(false);
     const [balance, setBalance] = useState(0);
-    const entry1 = {
-        description: 'Presente de Dante',
-        value: 238.00,
-        type: 'expense',
-        date: "19/11"
-    }
-    const entry0 = {
-        description: 'Conta fortnite',
-        value: 500.00,
-        type: "incoming",
-        date: "17/11"
-    }
-    const entry2 = {
-        description: 'Gasolina',
-        value: 70.70,
-        type: 'expense',
-        date: "22/11"
-    }
-    const entry3 = {
-        description: 'Gasolina',
-        value: 132.00,
-        type: 'expense',
-        date: "22/11"
-    }
-    const entry4 = {
-        description: 'Salário',
-        value: 3265.38,
-        type: 'incoming',
-        date: "23/11"
-    }
-
-
-    const entries = [entry0, entry1, entry2, entry3, entry4, entry2]
-
+    const [entries, setEntries] = useState([]);
     function updateBalance(entries) {
+        console.log(entries[0])
         let amount = 0;
         for (let i = 0; i < entries.length; i++) {
             if (entries[i].type === 'incoming') {
+                entries[i].value = +entries[i].value;
                 amount += entries[i].value;
             }
             else {
+                entries[i].value = +entries[i].value;
                 amount -= entries[i].value;
             }
         }
+        console.log(amount)
         setBalance(amount);
     }
+
     useEffect(() => {
         if (localStorage.getItem('token')) {
             const config = {
@@ -71,11 +43,17 @@ export default function MainPage() {
             };
             axios.get(`${BASE_URL}/main`, config)
                 .then(res => {
-                    const newUser = res.data;
+                    const { name, email, _entries } = res.data;
+                    const newUser = {
+                        name,
+                        email
+                    }
+                    console.log(_entries)
                     console.log(newUser);
                     setUser(newUser);
-                    updateBalance(entries);
-                    setShowPage(true)
+                    setEntries(_entries);
+                    updateBalance(_entries);
+                    setShowPage(true);
                 })
                 .catch(err => {
                     console.log(err)
@@ -94,7 +72,7 @@ export default function MainPage() {
         )
     }
     else {
-        if (entries.length === 0) {
+        if (entries?.length === 0) {
             return (
                 <>
                     <CenteredContainer>
@@ -133,10 +111,9 @@ export default function MainPage() {
                             </TopContainer>
                             <MainContainerWithEntries>
                                 <StyledEntries>
-                                    {/* remember to change the index to ID */}
                                     {entries.map((e, i) =>
                                         <Entry
-                                            key={i}
+                                            key={e._id}
                                             type={e.type}
                                             date={e.date}
                                             description={e.description}
@@ -145,7 +122,7 @@ export default function MainPage() {
                                 </StyledEntries>
                                 <StyledBalance>
                                     <h1>SALDO</h1>
-                                    <h2>{balance.toFixed(2).toString().replaceAll('.', ',')}</h2>
+                                    <h2>{balance.toFixed(2).toString().replaceAll('.', ',') }</h2>
                                 </StyledBalance>
                             </MainContainerWithEntries>
                             <ButtonsContainer>
