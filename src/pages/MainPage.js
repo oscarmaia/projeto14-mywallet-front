@@ -8,6 +8,9 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../contants/url";
 import Entry from "../components/Entry";
+import LoadingScreen from "../components/LoadingScreen";
+
+
 export default function MainPage() {
     const { user, setUser } = useContext(LoginContext);
     const navigate = useNavigate();
@@ -72,11 +75,11 @@ export default function MainPage() {
                     console.log(newUser);
                     setUser(newUser);
                     updateBalance(entries);
+                    setShowPage(true)
                 })
                 .catch(err => {
                     console.log(err)
                 })
-            setShowPage(true)
         } else {
             navigate('/')
         }
@@ -86,6 +89,7 @@ export default function MainPage() {
     if (!showPage) {
         return (
             <>
+                <LoadingScreen />
             </>
         )
     }
@@ -129,8 +133,10 @@ export default function MainPage() {
                             </TopContainer>
                             <MainContainerWithEntries>
                                 <StyledEntries>
-                                    {entries.map((e) =>
+                                    {/* remember to change the index to ID */}
+                                    {entries.map((e, i) =>
                                         <Entry
+                                            key={i}
                                             type={e.type}
                                             date={e.date}
                                             description={e.description}
@@ -179,6 +185,9 @@ const ButtonsContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    a{
+        text-decoration: none;
+    }
     `
 
 const InputButton = styled.button`

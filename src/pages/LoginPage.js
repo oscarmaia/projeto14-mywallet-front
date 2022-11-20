@@ -2,11 +2,13 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import LoadingScreen from "../components/LoadingScreen";
 import { BASE_URL } from "../contants/url";
 import { LoginContext } from "../contexts/LoginContext";
 export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
   const { user, setUser } = useContext(LoginContext);
+  const [showPage, setShowPage] = useState(false);
   const navigate = useNavigate()
 
   function tryToLogin(e) {
@@ -15,11 +17,11 @@ export default function LoginPage() {
       .then(res => {
         console.log(res)
         const token = res.data.token;
-        const newUser={
+        const newUser = {
           token
         }
         setUser(newUser);
-        localStorage.setItem("token",token)
+        localStorage.setItem("token", token)
         navigate('/main')
       })
       .catch(err => {
@@ -27,12 +29,13 @@ export default function LoginPage() {
         alert(err.response.data)
       })
   }
+
   function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  useEffect(()=>{
-    if(localStorage.getItem('token')){
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
       const newUser = {
         token: localStorage.getItem('token')
       }
@@ -40,29 +43,39 @@ export default function LoginPage() {
       console.log(newUser)
       navigate('/main');
     }
-  },[])
+    else {
+      setShowPage(true)
+    }
+  }, [])
 
-  return (
+  if (!showPage) {
     <>
-      <CenteredContainer>
-        <CenteredDiv>
-          <h1>MyWallet</h1>
-          <form onSubmit={tryToLogin}>
-            <StyledInput placeholder="E-mail" name="email" type="email" value={form.email} required onChange={handleChange} />
-            <StyledInput placeholder="Senha" name="password" type="password" value={form.password} required onChange={handleChange} />
-            <StyledButton type="submit">Entrar</StyledButton>
-          </form>
-          <Link to={'/register'}>Primeira vez? Cadastre-se</Link>
-        </CenteredDiv>
-      </CenteredContainer>
+      <LoadingScreen />
     </>
-  );
+  }
+  else {
+    return (
+      <>
+        <CenteredContainer>
+          <CenteredDiv>
+            <h1>MyWallet</h1>
+            <form onSubmit={tryToLogin}>
+              <StyledInput placeholder="E-mail" name="email" type="email" value={form.email} required onChange={handleChange} />
+              <StyledInput placeholder="Senha" name="password" type="password" value={form.password} required onChange={handleChange} />
+              <StyledButton type="submit">Entrar</StyledButton>
+            </form>
+            <Link to={'/register'}>Primeira vez? Cadastre-se</Link>
+          </CenteredDiv>
+        </CenteredContainer>
+      </>
+    );
+  }
 }
 
 const CenteredContainer = styled.div`
   width: 326px;
   height: 326px;
-
+  
   position: absolute;
   top: 0;
   bottom: 0;
