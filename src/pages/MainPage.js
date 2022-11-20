@@ -7,6 +7,7 @@ import { LoginContext } from "../contexts/LoginContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../contants/url";
+import Entry from "../components/Entry";
 export default function MainPage() {
     const { user, setUser } = useContext(LoginContext);
     const navigate = useNavigate();
@@ -28,11 +29,12 @@ export default function MainPage() {
                     console.log(err)
                 })
             setShowPage(true)
-        }else{
+        } else {
             navigate('/')
         }
     }, [])
 
+    const entries = [0, 1]
 
     if (!showPage) {
         return (
@@ -41,43 +43,103 @@ export default function MainPage() {
         )
     }
     else {
-        return (
-            <>
-                <CenteredContainer>
-                    <CenteredDiv>
-                        <TopContainer>
-                            <h1>Olá {user.name}</h1>
-                            <img src={exitImage}></img>
-                        </TopContainer>
-                        <MainContainer>
-                            <h2>
-                                Não há registros de entrada ou saída
-                            </h2>
-                        </MainContainer>
-                        <ButtonsContainer>
-                            <InputButton>
-                                <img src={entryImage}></img>
-                                <span>Nova Entrada</span>
-                            </InputButton>
-                            <InputButton>
-                                <img src={expenseImage}></img>
-                                <span>Nova Saída</span>
-                            </InputButton>
-                        </ButtonsContainer>
-                    </CenteredDiv>
-                </CenteredContainer>
-            </>
-        );
+        if (entries.length === 0) {
+            return (
+                <>
+                    <CenteredContainer>
+                        <CenteredDiv>
+                            <TopContainer>
+                                <h1>Olá {user.name}</h1>
+                                <img src={exitImage}></img>
+                            </TopContainer>
+                            <MainContainer>
+
+                            </MainContainer>
+                            <ButtonsContainer>
+                                <InputButton>
+                                    <img src={entryImage}></img>
+                                    <span>Nova Entrada</span>
+                                </InputButton>
+                                <InputButton>
+                                    <img src={expenseImage}></img>
+                                    <span>Nova Saída</span>
+                                </InputButton>
+                            </ButtonsContainer>
+                        </CenteredDiv>
+                    </CenteredContainer>
+                </>
+            );
+        }
+        else {
+            //has entries
+            return (
+                <>
+                    <CenteredContainer>
+                        <CenteredDiv>
+                            <TopContainer>
+                                <h1>Olá {user.name}</h1>
+                                <img src={exitImage}></img>
+                            </TopContainer>
+                            <MainContainerWithEntries>
+                                <StyledEntries>
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                    <Entry />
+                                </StyledEntries>
+                                <StyledBalance>
+                                    <h1>SALDO</h1>
+                                    <h2>1247,78</h2>
+                                </StyledBalance>
+                            </MainContainerWithEntries>
+                            <ButtonsContainer>
+                                <InputButton>
+                                    <img src={entryImage}></img>
+                                    <span>Nova Entrada</span>
+                                </InputButton>
+                                <InputButton>
+                                    <img src={expenseImage}></img>
+                                    <span>Nova Saída</span>
+                                </InputButton>
+                            </ButtonsContainer>
+                        </CenteredDiv>
+                    </CenteredContainer>
+                </>
+            );
+        }
     }
 }
 
+
+const StyledEntries = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content:flex-start;
+    overflow: auto;  
+    height: 95%;
+`
 const ButtonsContainer = styled.div`
     margin-top: 13px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-`
+    `
+
 const InputButton = styled.button`
     box-sizing: border-box;
     display: flex;
@@ -106,6 +168,44 @@ const InputButton = styled.button`
     }
 `
 
+const MainContainerWithEntries = styled.div`
+    position: relative;
+    box-sizing: border-box;
+    padding:10px;
+    border-radius: 5px;
+    width: 326px;
+    height: 446px;
+    background-color: #fff;  
+`
+const StyledBalance = styled.div`
+    position: absolute;
+    bottom:10px;
+    left: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+h1{
+    font-family: Raleway;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 10px;
+
+}
+h2{
+    font-family: Raleway;
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0em;
+    text-align: right;
+    color: #03AC00;
+    margin-right: 10px;
+}
+`
 const MainContainer = styled.div`
     border-radius: 5px;
     width: 326px;

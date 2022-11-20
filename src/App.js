@@ -3,7 +3,7 @@ import GlobalStyle from "./assets/css/GlobalStyle";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import RegisterPage from "./pages/RegisterPage";
-import EntryPage from "./pages/EntryPage"
+import EntryPage from "./pages/IncomingPage"
 import ExpensePage from "./pages/ExpensePage";
 import { LoginContext } from "./contexts/LoginContext";
 import { useState } from "react";
@@ -17,8 +17,8 @@ export default function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/main" element={<MainPage />} />
-          <Route path="/entry" element={<EntryPage />} />
-          <Route path="/expense" element={<ExpensePage />} />
+          <Route path="/main/incoming" element={<EntryPage />} />
+          <Route path="/main/expense" element={<ExpensePage />} />
         </Routes>
       </LoginContext.Provider>
     </BrowserRouter>

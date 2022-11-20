@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function EntryPage() {
+export default function IncomingPage() {
   return (
     <CenteredContainer>
         <CenteredDiv>
