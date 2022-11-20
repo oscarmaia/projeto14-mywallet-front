@@ -102,14 +102,18 @@ export default function MainPage() {
                                 </h2>
                             </MainContainer>
                             <ButtonsContainer>
-                                <InputButton>
-                                    <img src={entryImage} alt="incoming-"></img>
-                                    <span>Nova Entrada</span>
-                                </InputButton>
-                                <InputButton>
-                                    <img src={expenseImage} alt="expense-"></img>
-                                    <span>Nova Saída</span>
-                                </InputButton>
+                            <Link to={'/main/incoming'}>
+                                    <InputButton>
+                                        <img src={entryImage} alt="incoming-"></img>
+                                        <span>Nova Entrada</span>
+                                    </InputButton>
+                                </Link>
+                                <Link to={'/main/expense'}>
+                                    <InputButton >
+                                        <img src={expenseImage} alt="expense-"></img>
+                                        <span>Nova Saída</span>
+                                    </InputButton>
+                                </Link>
                             </ButtonsContainer>
                         </CenteredDiv>
                     </CenteredContainer>
