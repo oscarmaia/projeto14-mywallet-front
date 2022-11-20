@@ -45,8 +45,9 @@ export default function MainPage() {
                     navigate('/');
                 })
                 .catch(err => {
+                    alert(err.response.data)
                     localStorage.clear();
-                    alert(err.response.data);
+                    navigate('/')
                 })
         }
     }

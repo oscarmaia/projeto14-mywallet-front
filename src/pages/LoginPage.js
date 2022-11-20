@@ -24,8 +24,9 @@ export default function LoginPage() {
         navigate('/main')
       })
       .catch(err => {
-        localStorage.clear();
         alert(err.response.data)
+        localStorage.clear();
+        navigate('/')
       })
   }
 
