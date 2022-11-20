@@ -1,16 +1,56 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-
+import LoadingScreen from "../components/LoadingScreen";
+import { BASE_URL } from "../contants/url";
 export default function ExpensePage() {
-  return (
-    <CenteredContainer>
+  const [showPage, setShowPage] = useState(false);
+  const [form, setForm] = useState({ value: '', description: '' });
+  const navigate = useNavigate();
+  useEffect(() => {
+    setShowPage(true)
+  }, [])
+
+
+  function postExpense(e) {
+    e.preventDefault();
+    const config = {
+      headers: {
+        token: `Bearer ${localStorage.getItem('token')}`
+      }
+    };
+    axios.post(`${BASE_URL}/main/expense`, form, config)
+      .then(res => {
+        navigate('/main')
+      })
+      .catch(err => {
+        alert(err.response.data)
+      })
+  }
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  if (!showPage) {
+    <>
+      <LoadingScreen />
+    </>
+  }
+  else {
+    return (
+      <CenteredContainer>
         <CenteredDiv>
-          <h1>Nova saída</h1>
-          <StyledInput placeholder="Valor"></StyledInput>
-          <StyledInput placeholder="Descrição"></StyledInput>
-          <StyledButton>Salvar saída</StyledButton>
+          <h1>Nova entrada</h1>
+          <form onSubmit={postExpense}>
+            <StyledInput placeholder="Valor" name="value" onChange={handleChange} type="number" step={0.01} required />
+            <StyledInput placeholder="Descrição" name="description" onChange={handleChange} type="text" maxLength={20} required />
+            <StyledButton type="submit">Salvar saída</StyledButton>
+          </form>
         </CenteredDiv>
-    </CenteredContainer>
-  );
+      </CenteredContainer>
+    );
+  }
 }
 
 const CenteredContainer = styled.div`
@@ -61,6 +101,13 @@ const CenteredDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    form{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
 
   h1 {
     font-family: 'Raleway';

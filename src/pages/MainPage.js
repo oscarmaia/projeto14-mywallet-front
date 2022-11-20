@@ -56,7 +56,7 @@ export default function MainPage() {
                     setShowPage(true);
                 })
                 .catch(err => {
-                    console.log(err)
+                    alert(err.response.data)
                 })
         } else {
             navigate('/')
