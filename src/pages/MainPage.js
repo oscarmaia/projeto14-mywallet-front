@@ -120,7 +120,7 @@ export default function MainPage() {
                                             value={e.value}
                                         />)}
                                 </StyledEntries>
-                                <StyledBalance>
+                                <StyledBalance color={balance}>
                                     <h1>SALDO</h1>
                                     <h2>{balance.toFixed(2).toString().replaceAll('.', ',') }</h2>
                                 </StyledBalance>
@@ -229,7 +229,7 @@ h2{
     line-height: 20px;
     letter-spacing: 0em;
     text-align: right;
-    color: #03AC00;
+    color:${props=>props.color >0?"#03AC00":"#C70000"} ;
     margin-right: 10px;
 }
 `
