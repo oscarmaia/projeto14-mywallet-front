@@ -51,8 +51,8 @@ export default function RegisterPage() {
             <form onSubmit={register}>
               <StyledInput placeholder="Nome" type="text" name="name" value={form.name} required onChange={handleChange} />
               <StyledInput placeholder="E-mail" type="email" name="email" value={form.email} required onChange={handleChange} />
-              <StyledInput placeholder="Senha" type="password" name="password" value={form.password} required onChange={handleChange} />
-              <StyledInput placeholder="Confirme a senha" type="password" name="_password" value={form._password} required onChange={handleChange} />
+              <StyledInput placeholder="Senha" type="password" name="password" value={form.password} minLength={6} required onChange={handleChange} />
+              <StyledInput placeholder="Confirme a senha" type="password" name="_password" value={form._password} minLength={6} required onChange={handleChange} />
               <StyledButton type="submit">Cadastrar</StyledButton>
               <Link to={'/'}>Já tem uma conta? Entre agora!</Link>
             </form>
