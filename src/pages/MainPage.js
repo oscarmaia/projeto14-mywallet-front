@@ -33,19 +33,21 @@ export default function MainPage() {
     }
 
     function logout() {
-        const config = {
-            headers: {
-                token: `Bearer ${localStorage.getItem('token')}`
-            }
-        };
-        axios.post(`${BASE_URL}/logout`, user, config)
-            .then(res => {
-                localStorage.clear();
-                navigate('/');
-            })
-            .catch(err => {
-                alert(err.response.data);
-            })
+        if (window.confirm("Você deseja deslogar?") === true) {
+            const config = {
+                headers: {
+                    token: `Bearer ${localStorage.getItem('token')}`
+                }
+            };
+            axios.post(`${BASE_URL}/logout`, user, config)
+                .then(res => {
+                    localStorage.clear();
+                    navigate('/');
+                })
+                .catch(err => {
+                    alert(err.response.data);
+                })
+        }
     }
 
     useEffect(() => {
@@ -58,7 +60,6 @@ export default function MainPage() {
             axios.get(`${BASE_URL}/main`, config)
                 .then(res => {
                     const { name, email, _entries, userId } = res.data;
-                    console.log(res.data)
                     const newUser = {
                         _id: userId,
                         name,

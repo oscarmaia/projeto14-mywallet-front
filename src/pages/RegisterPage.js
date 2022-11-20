@@ -15,7 +15,6 @@ export default function RegisterPage() {
     } else {
       const request = { ...form }
       delete request._password;
-      console.log(request)
       axios.post(`${BASE_URL}/sign-up`, request)
         .then(res => {
           navigate('/');

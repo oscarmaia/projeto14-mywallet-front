@@ -15,7 +15,6 @@ export default function LoginPage() {
     e.preventDefault();
     axios.post(`${BASE_URL}/sign-in`, form)
       .then(res => {
-        console.log(res)
         const token = res.data.token;
         const newUser = {
           token
@@ -40,7 +39,6 @@ export default function LoginPage() {
         token: localStorage.getItem('token')
       }
       setUser(newUser)
-      console.log(newUser)
       navigate('/main');
     }
     else {
