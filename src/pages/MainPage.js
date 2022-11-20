@@ -18,7 +18,6 @@ export default function MainPage() {
     const [balance, setBalance] = useState(0);
     const [entries, setEntries] = useState([]);
     function updateBalance(entries) {
-        console.log(entries[0])
         let amount = 0;
         for (let i = 0; i < entries.length; i++) {
             if (entries[i].type === 'incoming') {
@@ -30,8 +29,23 @@ export default function MainPage() {
                 amount -= entries[i].value;
             }
         }
-        console.log(amount)
         setBalance(amount);
+    }
+
+    function logout() {
+        const config = {
+            headers: {
+                token: `Bearer ${localStorage.getItem('token')}`
+            }
+        };
+        axios.post(`${BASE_URL}/logout`, user, config)
+            .then(res => {
+                localStorage.clear();
+                navigate('/');
+            })
+            .catch(err => {
+                alert(err.response.data);
+            })
     }
 
     useEffect(() => {
@@ -43,26 +57,25 @@ export default function MainPage() {
             };
             axios.get(`${BASE_URL}/main`, config)
                 .then(res => {
-                    const { name, email, _entries } = res.data;
+                    const { name, email, _entries, userId } = res.data;
+                    console.log(res.data)
                     const newUser = {
+                        _id: userId,
                         name,
                         email
                     }
-                    console.log(_entries)
-                    console.log(newUser);
                     setUser(newUser);
                     setEntries(_entries);
                     updateBalance(_entries);
                     setShowPage(true);
                 })
                 .catch(err => {
-                    alert(err.response.data)
+                    alert(err.response.data);
                 })
         } else {
             navigate('/')
         }
     }, [])
-
 
     if (!showPage) {
         return (
@@ -79,18 +92,21 @@ export default function MainPage() {
                         <CenteredDiv>
                             <TopContainer>
                                 <h1>Olá {user.name}</h1>
-                                <img src={exitImage}></img>
+                                <img src={exitImage} alt="exit-" onClick={logout}></img>
                             </TopContainer>
                             <MainContainer>
-
+                                <h2>
+                                    Não há registros de
+                                    entrada ou saída
+                                </h2>
                             </MainContainer>
                             <ButtonsContainer>
                                 <InputButton>
-                                    <img src={entryImage}></img>
+                                    <img src={entryImage} alt="incoming-"></img>
                                     <span>Nova Entrada</span>
                                 </InputButton>
                                 <InputButton>
-                                    <img src={expenseImage}></img>
+                                    <img src={expenseImage} alt="expense-"></img>
                                     <span>Nova Saída</span>
                                 </InputButton>
                             </ButtonsContainer>
@@ -107,7 +123,7 @@ export default function MainPage() {
                         <CenteredDiv>
                             <TopContainer>
                                 <h1>Olá {user.name}</h1>
-                                <img src={exitImage}></img>
+                                <img src={exitImage} alt="exit-" onClick={logout}></img>
                             </TopContainer>
                             <MainContainerWithEntries>
                                 <StyledEntries>
@@ -122,19 +138,19 @@ export default function MainPage() {
                                 </StyledEntries>
                                 <StyledBalance color={balance}>
                                     <h1>SALDO</h1>
-                                    <h2>{balance.toFixed(2).toString().replaceAll('.', ',') }</h2>
+                                    <h2>{balance.toFixed(2).toString().replaceAll('.', ',')}</h2>
                                 </StyledBalance>
                             </MainContainerWithEntries>
                             <ButtonsContainer>
                                 <Link to={'/main/incoming'}>
                                     <InputButton>
-                                        <img src={entryImage}></img>
+                                        <img src={entryImage} alt="incoming-"></img>
                                         <span>Nova Entrada</span>
                                     </InputButton>
                                 </Link>
                                 <Link to={'/main/expense'}>
                                     <InputButton >
-                                        <img src={expenseImage}></img>
+                                        <img src={expenseImage} alt="expense-"></img>
                                         <span>Nova Saída</span>
                                     </InputButton>
                                 </Link>
@@ -229,7 +245,7 @@ h2{
     line-height: 20px;
     letter-spacing: 0em;
     text-align: right;
-    color:${props=>props.color >0?"#03AC00":"#C70000"} ;
+    color:${props => props.color > 0 ? "#03AC00" : "#C70000"} ;
     margin-right: 10px;
 }
 `
@@ -287,22 +303,6 @@ const CenteredContainer = styled.div`
       flex-direction: column;
       align-items: center;
       justify-content: center;
-    `;
-
-
-const StyledButton = styled.button`
-      font-family: "Raleway", sans-serif;
-      box-sizing: border-box;
-      border: none;
-      width: 326px;
-      height: 58px;
-      background: #a328d6;
-      border-radius: 5px;
-      margin-bottom: 36px;
-    
-      font-size: 20px;
-      font-weight: 700;
-      color: #fff;
     `;
 
 const CenteredDiv = styled.div`
