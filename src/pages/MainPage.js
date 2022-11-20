@@ -5,13 +5,60 @@ import expenseImage from "../assets/images/expense.svg"
 import { useContext, useEffect, useState } from "react";
 import { LoginContext } from "../contexts/LoginContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BASE_URL } from "../contants/url";
 import Entry from "../components/Entry";
 export default function MainPage() {
     const { user, setUser } = useContext(LoginContext);
     const navigate = useNavigate();
     const [showPage, setShowPage] = useState(false);
+    const [balance, setBalance] = useState(0);
+    const entry1 = {
+        description: 'Presente de Dante',
+        value: 238.00,
+        type: 'expense',
+        date: "19/11"
+    }
+    const entry0 = {
+        description: 'Conta fortnite',
+        value: 500.00,
+        type: "incoming",
+        date: "17/11"
+    }
+    const entry2 = {
+        description: 'Gasolina',
+        value: 70.70,
+        type: 'expense',
+        date: "22/11"
+    }
+    const entry3 = {
+        description: 'Gasolina',
+        value: 132.00,
+        type: 'expense',
+        date: "22/11"
+    }
+    const entry4 = {
+        description: 'Salário',
+        value: 3265.38,
+        type: 'incoming',
+        date: "23/11"
+    }
+
+
+    const entries = [entry0, entry1, entry2, entry3, entry4, entry2]
+
+    function updateBalance(entries) {
+        let amount = 0;
+        for (let i = 0; i < entries.length; i++) {
+            if (entries[i].type === 'incoming') {
+                amount += entries[i].value;
+            }
+            else {
+                amount -= entries[i].value;
+            }
+        }
+        setBalance(amount);
+    }
     useEffect(() => {
         if (localStorage.getItem('token')) {
             const config = {
@@ -24,6 +71,7 @@ export default function MainPage() {
                     const newUser = res.data;
                     console.log(newUser);
                     setUser(newUser);
+                    updateBalance(entries);
                 })
                 .catch(err => {
                     console.log(err)
@@ -34,7 +82,6 @@ export default function MainPage() {
         }
     }, [])
 
-    const entries = [0, 1]
 
     if (!showPage) {
         return (
@@ -82,38 +129,32 @@ export default function MainPage() {
                             </TopContainer>
                             <MainContainerWithEntries>
                                 <StyledEntries>
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
-                                    <Entry />
+                                    {entries.map((e) =>
+                                        <Entry
+                                            type={e.type}
+                                            date={e.date}
+                                            description={e.description}
+                                            value={e.value}
+                                        />)}
                                 </StyledEntries>
                                 <StyledBalance>
                                     <h1>SALDO</h1>
-                                    <h2>1247,78</h2>
+                                    <h2>{balance.toFixed(2).toString().replaceAll('.', ',')}</h2>
                                 </StyledBalance>
                             </MainContainerWithEntries>
                             <ButtonsContainer>
-                                <InputButton>
-                                    <img src={entryImage}></img>
-                                    <span>Nova Entrada</span>
-                                </InputButton>
-                                <InputButton>
-                                    <img src={expenseImage}></img>
-                                    <span>Nova Saída</span>
-                                </InputButton>
+                                <Link to={'/main/incoming'}>
+                                    <InputButton>
+                                        <img src={entryImage}></img>
+                                        <span>Nova Entrada</span>
+                                    </InputButton>
+                                </Link>
+                                <Link to={'/main/expense'}>
+                                    <InputButton >
+                                        <img src={expenseImage}></img>
+                                        <span>Nova Saída</span>
+                                    </InputButton>
+                                </Link>
                             </ButtonsContainer>
                         </CenteredDiv>
                     </CenteredContainer>

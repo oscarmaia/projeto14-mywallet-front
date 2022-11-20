@@ -1,40 +1,19 @@
 import styled from "styled-components"
-export default function Entry() {
-
-    const entry = {
-        description: 'Presente de Dante',
-        value: 238.00,
-        type: 'expense',
-        date: "19/11"
-    }
-    const entry2 = {
-        description: 'Conta fortnite',
-        value: 500.00,
-        type: "incoming",
-        date: "17/11"
-    }
-    const entry3 = {
-        description: 'Gasolina',
-        value: 70.00,
-        type: 'expense',
-        date: "22/11"
-    }
-
-    const entries = [entry, entry2, entry3]
+export default function Entry({type,date,value,description}) {
 
     return (
         <>
-            <StyledEntry changeColor={entry2.type}>
+            <StyledEntry changeColor={type}>
                 <StyledDateWithDescription>
                     <h2>
-                        {entry.date}
+                        {date}
                     </h2>
                     <h1>
-                        {entry.description}
+                        {description}
                     </h1>
                 </StyledDateWithDescription>
                 <h3 >
-                    {entry2.value.toFixed(2).toString().replaceAll('.', ',')}
+                    {value.toFixed(2).toString().replaceAll('.', ',')}
                 </h3>
             </StyledEntry>
         </>
