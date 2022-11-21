@@ -28,9 +28,9 @@ export default function ExpensePage() {
         navigate('/main')
       })
       .catch(err => {
+        setDisabled(false);
         alert(err.response.data)
-        localStorage.clear();
-        navigate('/')
+        
       })
   }
   function handleChange(e) {

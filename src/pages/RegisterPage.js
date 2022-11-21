@@ -23,6 +23,7 @@ export default function RegisterPage() {
           navigate('/');
         })
         .catch(err => {
+          setDisabled(false);
           alert(err.response.data)
           localStorage.clear();
           navigate('/')

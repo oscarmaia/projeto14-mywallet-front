@@ -75,8 +75,10 @@ export default function MainPage() {
                     setShowPage(true);
                 })
                 .catch(err => {
-                    localStorage.clear();
                     alert(err.response.data);
+                    setDisabled(false);
+                    localStorage.clear();
+                    navigate('/')
                 })
         } else {
             navigate('/')
@@ -140,6 +142,7 @@ export default function MainPage() {
                                     {entries.map((e, i) =>
                                         <Entry
                                             key={e._id}
+                                            id={e._id}
                                             type={e.type}
                                             date={e.date}
                                             description={e.description}

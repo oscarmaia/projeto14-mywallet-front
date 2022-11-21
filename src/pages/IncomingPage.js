@@ -28,9 +28,8 @@ export default function IncomingPage() {
         navigate('/main')
       })
       .catch(err => {
-        alert(err.response.data)
-        localStorage.clear();
-        navigate('/')
+        setDisabled(false);
+        alert(err.response.data);
       })
   }
   function handleChange(e) {

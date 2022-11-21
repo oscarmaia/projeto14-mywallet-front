@@ -27,6 +27,7 @@ export default function LoginPage() {
         navigate('/main')
       })
       .catch(err => {
+        setDisabled(false);
         alert(err.response.data)
         localStorage.clear();
         navigate('/')

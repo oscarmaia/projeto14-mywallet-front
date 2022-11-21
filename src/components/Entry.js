@@ -1,6 +1,23 @@
+import axios from "axios"
+import { Navigate, useNavigate } from "react-router-dom"
 import styled from "styled-components"
-export default function Entry({type,date,value,description}) {
-
+import delete_image from "../assets/images/delete.svg"
+import { BASE_URL } from "../contants/url"
+export default function Entry({ type, date, value, description, id }) {
+    const navigate = useNavigate()
+    function deleteEntry() {
+        if (window.confirm(`Deseja deletar \"${description}\"?`) === true) {
+            axios.delete(`${BASE_URL}/main/entry:${id}`)
+            .then(res=>{
+                console.log(res.data)
+            })
+            .catch(err=>{
+                alert(err.response.data)
+                localStorage.clear();
+                navigate('/')
+            })
+        }
+    }
     return (
         <>
             <StyledEntry changeColor={type}>
@@ -12,9 +29,12 @@ export default function Entry({type,date,value,description}) {
                         {description}
                     </h1>
                 </StyledDateWithDescription>
-                <h3 >
-                    {value.toFixed(2).toString().replaceAll('.', ',')}
-                </h3>
+                <Value>
+                    <h3 >
+                        {value.toFixed(2).toString().replaceAll('.', ',')}
+                    </h3>
+                    <img src={delete_image} alt="delete" onClick={deleteEntry}></img>
+                </Value>
             </StyledEntry>
         </>
     )
@@ -53,10 +73,18 @@ const StyledEntry = styled.div`
             text-align: right;
             color:${props => props.changeColor === "incoming" ? "#03AC00" : "#C70000"}
         }
+
         margin-bottom: 15px;
     `
+const Value = styled.div`
+    display: flex;
+    img{
+            margin-left: 3px;
+            width: 15px;
+        }
+`
 const StyledDateWithDescription = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    `
+`
