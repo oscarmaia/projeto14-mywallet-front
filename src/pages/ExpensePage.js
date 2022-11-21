@@ -20,7 +20,7 @@ export default function ExpensePage() {
     e.preventDefault();
     const config = {
       headers: {
-        token: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     };
     axios.post(`${BASE_URL}/main/expense`, form, config)

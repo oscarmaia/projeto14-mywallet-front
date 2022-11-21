@@ -19,6 +19,11 @@ export default function Entry({ type, date, value, description, id,update,setUpd
             })
         }
     }
+
+    function updateEntry(){
+        console.log(id)
+    }
+
     return (
         <>
             <StyledEntry changeColor={type}>
@@ -26,7 +31,7 @@ export default function Entry({ type, date, value, description, id,update,setUpd
                     <h2>
                         {date}
                     </h2>
-                    <h1>
+                    <h1 onClick={updateEntry}>
                         {description}
                     </h1>
                 </StyledDateWithDescription>

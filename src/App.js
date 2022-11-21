@@ -7,6 +7,7 @@ import EntryPage from "./pages/IncomingPage"
 import ExpensePage from "./pages/ExpensePage";
 import { LoginContext } from "./contexts/LoginContext";
 import { useState } from "react";
+import UpdateIncoming from "./pages/UpdateIncoming";
 export default function App() {
   const [user,setUser] = useState({})
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/main" element={<MainPage />} />
           <Route path="/main/incoming" element={<EntryPage />} />
           <Route path="/main/expense" element={<ExpensePage />} />
+          <Route path="/main/incoming/update" element={<UpdateIncoming />} />
         </Routes>
       </LoginContext.Provider>
     </BrowserRouter>
