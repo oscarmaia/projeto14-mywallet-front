@@ -11,7 +11,11 @@ export default function ExpensePage() {
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    setShowPage(true)
+    if (localStorage.getItem('token')) {
+      setShowPage(true)
+    }else{
+      navigate('/')
+    }
   }, [])
 
 

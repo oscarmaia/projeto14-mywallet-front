@@ -11,7 +11,11 @@ export default function IncomingPage() {
   const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    setShowPage(true)
+    if (localStorage.getItem('token')) {
+      setShowPage(true)
+    }else{
+      navigate('/')
+    }
   }, [])
 
 
@@ -41,7 +45,7 @@ export default function IncomingPage() {
       <LoadingScreen />
     </>
   }
-  
+
   else {
     return (
       <CenteredContainer disabled={disabled}>
@@ -71,7 +75,7 @@ export default function IncomingPage() {
 }
 
 const CenteredContainer = styled.div`
-filter:brightness(${props=>props.disabled===true?"80%":"100%"});
+filter:brightness(${props => props.disabled === true ? "80%" : "100%"});
     margin-top: 25px;
   display: flex;
   flex-direction: column;

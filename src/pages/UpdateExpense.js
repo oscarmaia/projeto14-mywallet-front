@@ -14,8 +14,16 @@ export default function UpdateExpense() {
   const location = useLocation();
 
   useEffect(() => {
-    setShowPage(true)
-    setId(location.state.id);
+    if (localStorage.getItem('token')) {
+      try {
+        setId(location.state.id);
+        setShowPage(true)
+      } catch (error) {
+        navigate('/main')
+      }
+    } else {
+      navigate('/')
+    }
   }, [])
 
 
