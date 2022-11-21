@@ -8,6 +8,7 @@ import ExpensePage from "./pages/ExpensePage";
 import { LoginContext } from "./contexts/LoginContext";
 import { useState } from "react";
 import UpdateIncoming from "./pages/UpdateIncoming";
+import PageNotFound from "./pages/PageNotFound";
 export default function App() {
   const [user,setUser] = useState({})
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/main/expense" element={<ExpensePage />} />
           <Route path="/main/incoming/update" element={<UpdateIncoming />} />
           <Route path="/main/expense/update" element={<UpdateIncoming />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </LoginContext.Provider>
     </BrowserRouter>
