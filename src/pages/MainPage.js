@@ -15,24 +15,10 @@ export default function MainPage() {
     const { user, setUser } = useContext(LoginContext);
     const navigate = useNavigate();
     const [showPage, setShowPage] = useState(false);
-    const [balance, setBalance] = useState(0);
-    const [entries, setEntries] = useState([]);
-    const [disabled,setDisabled] = useState(false);
-    const [update,setUpdate] = useState(false);
-    function updateBalance(entries) {
-        let amount = 0;
-        for (let i = 0; i < entries.length; i++) {
-            if (entries[i].type === 'incoming') {
-                entries[i].value = +entries[i].value;
-                amount += entries[i].value;
-            }
-            else {
-                entries[i].value = +entries[i].value;
-                amount -= entries[i].value;
-            }
-        }
-        setBalance(amount);
-    }
+    const [totalAmount, setTotalAmount] = useState(0);
+    const [userEntries, setUserEntries] = useState([]);
+    const [disabled, setDisabled] = useState(false);
+    const [update, setUpdate] = useState(false);
 
     function logout() {
         if (window.confirm("Você deseja deslogar?") === true) {
@@ -64,15 +50,15 @@ export default function MainPage() {
             };
             axios.get(`${BASE_URL}/main`, config)
                 .then(res => {
-                    const { name, email, _entries, userId } = res.data;
+                    const { name, email, entries, userId, balance } = res.data;
                     const newUser = {
                         _id: userId,
                         name,
                         email
                     }
                     setUser(newUser);
-                    setEntries(_entries);
-                    updateBalance(_entries);
+                    setUserEntries(entries);
+                    setTotalAmount(balance);
                     setShowPage(true);
                 })
                 .catch(err => {
@@ -94,7 +80,7 @@ export default function MainPage() {
         )
     }
     else {
-        if (entries?.length === 0) {
+        if (userEntries?.length === 0) {
             return (
                 <>
                     <CenteredContainer>
@@ -110,7 +96,7 @@ export default function MainPage() {
                                 </h2>
                             </MainContainer>
                             <ButtonsContainer>
-                            <Link to={'/main/incoming'}>
+                                <Link to={'/main/incoming'}>
                                     <InputButton disabled={disabled}>
                                         <img src={entryImage} alt="incoming-"></img>
                                         <span>Nova Entrada</span>
@@ -140,7 +126,7 @@ export default function MainPage() {
                             </TopContainer>
                             <MainContainerWithEntries>
                                 <StyledEntries>
-                                    {entries.map((e, i) =>
+                                    {userEntries.map((e, i) =>
                                         <Entry
                                             key={e._id}
                                             id={e._id}
@@ -152,9 +138,9 @@ export default function MainPage() {
                                             setUpdate={setUpdate}
                                         />)}
                                 </StyledEntries>
-                                <StyledBalance color={balance}>
+                                <StyledBalance color={totalAmount}>
                                     <h1>SALDO</h1>
-                                    <h2>{balance.toFixed(2).toString().replaceAll('.', ',')}</h2>
+                                    <h2>{totalAmount.toFixed(2).toString().replaceAll('.', ',')}</h2>
                                 </StyledBalance>
                             </MainContainerWithEntries>
                             <ButtonsContainer>
@@ -306,7 +292,7 @@ const TopContainer = styled.div`
 `
 
 const CenteredContainer = styled.div`
-filter:brightness(${props=>props.disabled===true?"80%":"100%"});
+filter:brightness(${props => props.disabled === true ? "80%" : "100%"});
       width: 326px;
       height: 326px;
     
