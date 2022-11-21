@@ -27,7 +27,12 @@ export default function Entry({ type, date, value, description, id, update, setU
     }
 
     function updateEntry() {
-        console.log(id)
+        if(type === "incoming"){
+            navigate(`/main/incoming/update`,{state:{id}})
+        }
+        else{
+            navigate(`/main/expense/update`,{state:{id}})
+        }
     }
 
     return (

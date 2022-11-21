@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LoadingScreen from "../components/LoadingScreen";
 import { BASE_URL } from "../contants/url";
-export default function UpdateIncoming() {
+export default function UpdateExpense() {
   const [showPage, setShowPage] = useState(false);
   const [form, setForm] = useState({ value: '', description: '' });
   const [disabled, setDisabled] = useState(false);
@@ -19,7 +19,7 @@ export default function UpdateIncoming() {
   }, [])
 
 
-  function putIncoming(e) {
+  function putExpense(e) {
     e.preventDefault();
     setDisabled(true);
     const config = {
@@ -51,12 +51,12 @@ export default function UpdateIncoming() {
     return (
       <CenteredContainer disabled={disabled}>
         <CenteredDiv>
-          <h1>Editar entrada</h1>
-          <form onSubmit={putIncoming}>
+          <h1>Editar saída</h1>
+          <form onSubmit={putExpense}>
             <StyledInput disabled={disabled} placeholder="Valor" name="value" onChange={handleChange} type="number" step={0.01} required />
             <StyledInput disabled={disabled} placeholder="Descrição" name="description" onChange={handleChange} type="text" maxLength={20} required />
             <StyledButton disabled={disabled} type="submit">
-              <span>Atualizar entrada</span>
+              <span>Atualizar saída</span>
               <Puff
                 height="40"
                 width="40"

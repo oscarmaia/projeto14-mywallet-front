@@ -21,6 +21,7 @@ export default function App() {
           <Route path="/main/incoming" element={<EntryPage />} />
           <Route path="/main/expense" element={<ExpensePage />} />
           <Route path="/main/incoming/update" element={<UpdateIncoming />} />
+          <Route path="/main/expense/update" element={<UpdateIncoming />} />
         </Routes>
       </LoginContext.Provider>
     </BrowserRouter>
