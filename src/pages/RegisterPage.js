@@ -27,7 +27,6 @@ export default function RegisterPage() {
           setDisabled(false);
           alert(err.response.data)
           localStorage.clear();
-          navigate('/')
         })
     }
   }
@@ -56,7 +55,7 @@ export default function RegisterPage() {
           <CenteredDiv disabled={disabled}>
             <h1>MyWallet</h1>
             <form onSubmit={register}>
-              <StyledInput disabled={disabled} placeholder="Nome" type="text" name="name" value={form.name} required onChange={handleChange} />
+              <StyledInput disabled={disabled} placeholder="Nome" type="text" name="name" value={form.name} maxLength={18} required onChange={handleChange} />
               <StyledInput disabled={disabled} placeholder="E-mail" type="email" name="email" value={form.email} required onChange={handleChange} />
               <StyledInput disabled={disabled} placeholder="Senha" type="password" name="password" value={form.password} minLength={6} required onChange={handleChange} />
               <StyledInput disabled={disabled} placeholder="Confirme a senha" type="password" name="_password" value={form._password} minLength={6} required onChange={handleChange} />
