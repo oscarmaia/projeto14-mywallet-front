@@ -39,7 +39,7 @@ export default function MainPage() {
             setDisabled(true);
             const config = {
                 headers: {
-                    token: `Bearer ${localStorage.getItem('token')}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             };
             axios.post(`${BASE_URL}/logout`, user, config)
