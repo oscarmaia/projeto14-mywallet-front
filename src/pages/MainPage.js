@@ -18,6 +18,7 @@ export default function MainPage() {
     const [balance, setBalance] = useState(0);
     const [entries, setEntries] = useState([]);
     const [disabled,setDisabled] = useState(false);
+    const [update,setUpdate] = useState(false);
     function updateBalance(entries) {
         let amount = 0;
         for (let i = 0; i < entries.length; i++) {
@@ -83,7 +84,7 @@ export default function MainPage() {
         } else {
             navigate('/')
         }
-    }, [])
+    }, [update])
 
     if (!showPage) {
         return (
@@ -147,6 +148,8 @@ export default function MainPage() {
                                             date={e.date}
                                             description={e.description}
                                             value={e.value}
+                                            update={update}
+                                            setUpdate={setUpdate}
                                         />)}
                                 </StyledEntries>
                                 <StyledBalance color={balance}>

@@ -3,13 +3,14 @@ import { Navigate, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import delete_image from "../assets/images/delete.svg"
 import { BASE_URL } from "../contants/url"
-export default function Entry({ type, date, value, description, id }) {
+export default function Entry({ type, date, value, description, id,update,setUpdate }) {
     const navigate = useNavigate()
     function deleteEntry() {
         if (window.confirm(`Deseja deletar \"${description}\"?`) === true) {
-            axios.delete(`${BASE_URL}/main/entry:${id}`)
+            axios.delete(`${BASE_URL}/main/entry/${id}`)
             .then(res=>{
                 console.log(res.data)
+                setUpdate(!update)
             })
             .catch(err=>{
                 alert(err.response.data)
