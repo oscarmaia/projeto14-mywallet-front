@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Puff } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LoadingScreen from "../components/LoadingScreen";
@@ -7,6 +8,7 @@ import { BASE_URL } from "../contants/url";
 export default function IncomingPage() {
   const [showPage, setShowPage] = useState(false);
   const [form, setForm] = useState({ value: '', description: '' });
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     setShowPage(true)
@@ -15,6 +17,7 @@ export default function IncomingPage() {
 
   function postIncoming(e) {
     e.preventDefault();
+    setDisabled(true);
     const config = {
       headers: {
         token: `Bearer ${localStorage.getItem('token')}`
@@ -39,15 +42,28 @@ export default function IncomingPage() {
       <LoadingScreen />
     </>
   }
+  
   else {
     return (
       <CenteredContainer>
         <CenteredDiv>
           <h1>Nova entrada</h1>
           <form onSubmit={postIncoming}>
-            <StyledInput placeholder="Valor" name="value" onChange={handleChange} type="number" step={0.01} required />
-            <StyledInput placeholder="Descrição" name="description" onChange={handleChange} type="text" maxLength={20} required />
-            <StyledButton type="submit">Salvar entrada</StyledButton>
+            <StyledInput disabled={disabled} placeholder="Valor" name="value" onChange={handleChange} type="number" step={0.01} required />
+            <StyledInput disabled={disabled} placeholder="Descrição" name="description" onChange={handleChange} type="text" maxLength={20} required />
+            <StyledButton disabled={disabled} type="submit">
+              <span>Salvar entrada</span>
+              <Puff
+                height="40"
+                width="40"
+                radisu={1}
+                color="#FFF"
+                ariaLabel="puff-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={disabled}
+              />
+            </StyledButton>
           </form>
         </CenteredDiv>
       </CenteredContainer>
@@ -85,18 +101,24 @@ const StyledInput = styled.input`
 `;
 
 const StyledButton = styled.button`
-  font-family: "Raleway", sans-serif;
-  box-sizing: border-box;
-  border: none;
-  width: 326px;
-  height: 58px;
-  background: #a328d6;
-  border-radius: 5px;
-  margin-bottom: 36px;
+    box-sizing: border-box;
+    border: none;
+    width: 326px;
+    height: 58px;
+    background: #a328d6;
+    border-radius: 5px;
+    margin-bottom: 36px;
 
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  span{
+    font-family: "Raleway", sans-serif;  
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    display:${props => props.disabled === true ? "none" : ""};
+  }
 `;
 
 const CenteredDiv = styled.div`

@@ -17,6 +17,7 @@ export default function MainPage() {
     const [showPage, setShowPage] = useState(false);
     const [balance, setBalance] = useState(0);
     const [entries, setEntries] = useState([]);
+    const [disabled,setDisabled] = useState(false);
     function updateBalance(entries) {
         let amount = 0;
         for (let i = 0; i < entries.length; i++) {
@@ -34,6 +35,7 @@ export default function MainPage() {
 
     function logout() {
         if (window.confirm("Você deseja deslogar?") === true) {
+            setDisabled(true);
             const config = {
                 headers: {
                     token: `Bearer ${localStorage.getItem('token')}`
@@ -94,9 +96,9 @@ export default function MainPage() {
                 <>
                     <CenteredContainer>
                         <CenteredDiv>
-                            <TopContainer>
+                            <TopContainer disabled={disabled}>
                                 <h1>Olá {user.name}</h1>
-                                <img src={exitImage} alt="exit-" onClick={logout}></img>
+                                <img src={exitImage} alt="exit-" onClick={logout} ></img>
                             </TopContainer>
                             <MainContainer>
                                 <h2>
@@ -106,13 +108,13 @@ export default function MainPage() {
                             </MainContainer>
                             <ButtonsContainer>
                             <Link to={'/main/incoming'}>
-                                    <InputButton>
+                                    <InputButton disabled={disabled}>
                                         <img src={entryImage} alt="incoming-"></img>
                                         <span>Nova Entrada</span>
                                     </InputButton>
                                 </Link>
                                 <Link to={'/main/expense'}>
-                                    <InputButton >
+                                    <InputButton disabled={disabled}>
                                         <img src={expenseImage} alt="expense-"></img>
                                         <span>Nova Saída</span>
                                     </InputButton>
@@ -129,9 +131,9 @@ export default function MainPage() {
                 <>
                     <CenteredContainer>
                         <CenteredDiv>
-                            <TopContainer>
+                            <TopContainer disabled={disabled}>
                                 <h1>Olá {user.name}</h1>
-                                <img src={exitImage} alt="exit-" onClick={logout}></img>
+                                <img src={exitImage} alt="exit-" onClick={logout} ></img>
                             </TopContainer>
                             <MainContainerWithEntries>
                                 <StyledEntries>
@@ -151,13 +153,13 @@ export default function MainPage() {
                             </MainContainerWithEntries>
                             <ButtonsContainer>
                                 <Link to={'/main/incoming'}>
-                                    <InputButton>
+                                    <InputButton disabled={disabled}>
                                         <img src={entryImage} alt="incoming-"></img>
                                         <span>Nova Entrada</span>
                                     </InputButton>
                                 </Link>
                                 <Link to={'/main/expense'}>
-                                    <InputButton >
+                                    <InputButton disabled={disabled}>
                                         <img src={expenseImage} alt="expense-"></img>
                                         <span>Nova Saída</span>
                                     </InputButton>
@@ -292,6 +294,7 @@ const TopContainer = styled.div`
     }
     img{
         width: 32px;
+        pointer-events:${props => props.disabled === true ? "none" : ""};
     }
     margin-bottom: 26px;
 `

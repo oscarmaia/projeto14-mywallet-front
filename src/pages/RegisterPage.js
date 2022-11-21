@@ -4,11 +4,14 @@ import styled from "styled-components";
 import axios from 'axios';
 import { BASE_URL } from "../contants/url";
 import LoadingScreen from "../components/LoadingScreen";
+import { Puff } from "react-loader-spinner";
 export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', password: '', _password: '' });
   const [showPage, setShowPage] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   function register(e) {
+    setDisabled(true);
     e.preventDefault();
     if (form.password !== form._password) {
       alert("Password has to be the same!")
@@ -48,14 +51,27 @@ export default function RegisterPage() {
     return (
       <>
         <CenteredContainer>
-          <CenteredDiv>
+          <CenteredDiv disabled={disabled}>
             <h1>MyWallet</h1>
             <form onSubmit={register}>
-              <StyledInput placeholder="Nome" type="text" name="name" value={form.name} required onChange={handleChange} />
-              <StyledInput placeholder="E-mail" type="email" name="email" value={form.email} required onChange={handleChange} />
-              <StyledInput placeholder="Senha" type="password" name="password" value={form.password} minLength={6} required onChange={handleChange} />
-              <StyledInput placeholder="Confirme a senha" type="password" name="_password" value={form._password} minLength={6} required onChange={handleChange} />
-              <StyledButton type="submit">Cadastrar</StyledButton>
+              <StyledInput disabled={disabled} placeholder="Nome" type="text" name="name" value={form.name} required onChange={handleChange} />
+              <StyledInput disabled={disabled} placeholder="E-mail" type="email" name="email" value={form.email} required onChange={handleChange} />
+              <StyledInput disabled={disabled} placeholder="Senha" type="password" name="password" value={form.password} minLength={6} required onChange={handleChange} />
+              <StyledInput disabled={disabled} placeholder="Confirme a senha" type="password" name="_password" value={form._password} minLength={6} required onChange={handleChange} />
+              <StyledButton disabled={disabled} type="submit">
+                <span>Cadastrar</span>
+                <Puff
+                  height="40"
+                  width="40"
+                  radisu={1}
+                  color="#FFF"
+                  ariaLabel="puff-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={disabled}
+                />
+              </StyledButton>
+
               <Link to={'/'}>Já tem uma conta? Entre agora!</Link>
             </form>
           </CenteredDiv>
@@ -106,18 +122,24 @@ const StyledInput = styled.input`
 `;
 
 const StyledButton = styled.button`
-  font-family: "Raleway", sans-serif;
-  box-sizing: border-box;
-  border: none;
-  width: 326px;
-  height: 58px;
-  background: #a328d6;
-  border-radius: 5px;
-  margin-bottom: 36px;
+    box-sizing: border-box;
+    border: none;
+    width: 326px;
+    height: 58px;
+    background: #a328d6;
+    border-radius: 5px;
+    margin-bottom: 36px;
 
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  span{
+    font-family: "Raleway", sans-serif;  
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    display:${props => props.disabled === true ? "none" : ""};
+  }
 `;
 
 const CenteredDiv = styled.div`
@@ -136,5 +158,6 @@ const CenteredDiv = styled.div`
     color: white;
     font-weight: 700;
     font-size: 15px;
+    pointer-events:${props => props.disabled === true ? "none" : ""};
   }
 `;

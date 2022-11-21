@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import { Puff } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LoadingScreen from "../components/LoadingScreen";
@@ -9,10 +10,12 @@ export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' });
   const { user, setUser } = useContext(LoginContext);
   const [showPage, setShowPage] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate()
 
   function tryToLogin(e) {
     e.preventDefault();
+    setDisabled(true);
     axios.post(`${BASE_URL}/sign-in`, form)
       .then(res => {
         const token = res.data.token;
@@ -56,12 +59,24 @@ export default function LoginPage() {
     return (
       <>
         <CenteredContainer>
-          <CenteredDiv>
+          <CenteredDiv disabled={disabled} >
             <h1>MyWallet</h1>
             <form onSubmit={tryToLogin}>
-              <StyledInput placeholder="E-mail" name="email" type="email" value={form.email} required onChange={handleChange} />
-              <StyledInput placeholder="Senha" name="password" type="password" value={form.password} required onChange={handleChange} />
-              <StyledButton type="submit">Entrar</StyledButton>
+              <StyledInput disabled={disabled} placeholder="E-mail" name="email" type="email" value={form.email} required onChange={handleChange} />
+              <StyledInput disabled={disabled} placeholder="Senha" name="password" type="password" value={form.password} required onChange={handleChange} />
+              <StyledButton disabled={disabled} type="submit">
+                <span>Entrar</span>
+                <Puff
+                  height="40"
+                  width="40"
+                  radisu={1}
+                  color="#FFF"
+                  ariaLabel="puff-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  visible={disabled}
+                />
+              </StyledButton>
             </form>
             <Link to={'/register'}>Primeira vez? Cadastre-se</Link>
           </CenteredDiv>
@@ -110,18 +125,24 @@ const StyledInput = styled.input`
 `;
 
 const StyledButton = styled.button`
-  font-family: "Raleway", sans-serif;
-  box-sizing: border-box;
-  border: none;
-  width: 326px;
-  height: 58px;
-  background: #a328d6;
-  border-radius: 5px;
-  margin-bottom: 36px;
+    box-sizing: border-box;
+    border: none;
+    width: 326px;
+    height: 58px;
+    background: #a328d6;
+    border-radius: 5px;
+    margin-bottom: 36px;
 
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  span{
+    font-family: "Raleway", sans-serif;  
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    display:${props => props.disabled === true ? "none" : ""};
+  }
 `;
 
 const CenteredDiv = styled.div`
@@ -140,5 +161,6 @@ const CenteredDiv = styled.div`
     color: white;
     font-weight: 700;
     font-size: 15px;
+    pointer-events:${props => props.disabled === true ? "none" : ""};
   }
 `;
