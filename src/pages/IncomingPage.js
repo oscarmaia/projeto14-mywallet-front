@@ -45,7 +45,7 @@ export default function IncomingPage() {
   
   else {
     return (
-      <CenteredContainer>
+      <CenteredContainer disabled={disabled}>
         <CenteredDiv>
           <h1>Nova entrada</h1>
           <form onSubmit={postIncoming}>
@@ -72,6 +72,7 @@ export default function IncomingPage() {
 }
 
 const CenteredContainer = styled.div`
+filter:brightness(${props=>props.disabled===true?"80%":"100%"});
     margin-top: 25px;
   display: flex;
   flex-direction: column;
@@ -112,6 +113,9 @@ const StyledButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    :hover{
+      background-color:#9c26ce;
+    }
   span{
     font-family: "Raleway", sans-serif;  
     font-size: 20px;

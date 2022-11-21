@@ -50,7 +50,7 @@ export default function RegisterPage() {
   else {
     return (
       <>
-        <CenteredContainer>
+        <CenteredContainer disabled={disabled}>
           <CenteredDiv disabled={disabled}>
             <h1>MyWallet</h1>
             <form onSubmit={register}>
@@ -84,6 +84,7 @@ export default function RegisterPage() {
 
 
 const CenteredContainer = styled.div`
+filter:brightness(${props=>props.disabled===true?"80%":"100%"});
   width: 326px;
   height: 326px;
 
@@ -101,6 +102,7 @@ const CenteredContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
+
   font-family: "Raleway", sans-serif;
   font-size: 20px;
   color: #000;
@@ -133,6 +135,9 @@ const StyledButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    :hover{
+      background-color:#9c26ce;
+    }
   span{
     font-family: "Raleway", sans-serif;  
     font-size: 20px;

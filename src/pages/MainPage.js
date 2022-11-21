@@ -129,7 +129,7 @@ export default function MainPage() {
             //has entries
             return (
                 <>
-                    <CenteredContainer>
+                    <CenteredContainer disabled={disabled}>
                         <CenteredDiv>
                             <TopContainer disabled={disabled}>
                                 <h1>Olá {user.name}</h1>
@@ -300,6 +300,7 @@ const TopContainer = styled.div`
 `
 
 const CenteredContainer = styled.div`
+filter:brightness(${props=>props.disabled===true?"80%":"100%"});
       width: 326px;
       height: 326px;
     
