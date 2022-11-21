@@ -15,6 +15,7 @@ export default function RegisterPage() {
     e.preventDefault();
     if (form.password !== form._password) {
       alert("Password has to be the same!")
+      setDisabled(false);
     } else {
       const request = { ...form }
       delete request._password;
@@ -85,7 +86,7 @@ export default function RegisterPage() {
 
 
 const CenteredContainer = styled.div`
-filter:brightness(${props=>props.disabled===true?"80%":"100%"});
+filter:brightness(${props => props.disabled === true ? "80%" : "100%"});
   width: 326px;
   height: 326px;
 
