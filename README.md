@@ -3,7 +3,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## The link of the backend repository is here
-[backend-repository](https://github.com/facebook/create-react-app](https://github.com/oscarmaia/projeto14-mywallet-back)
+https://github.com/oscarmaia/projeto14-mywallet-back
 
 ## Available Scripts
 
