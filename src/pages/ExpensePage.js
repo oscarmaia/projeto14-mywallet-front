@@ -51,7 +51,7 @@ export default function ExpensePage() {
     return (
       <CenteredContainer disabled={disabled}>
         <CenteredDiv>
-          <h1>Nova entrada</h1>
+          <h1>Nova saída</h1>
           <form onSubmit={postExpense}>
             <StyledInput disabled={disabled} placeholder="Valor" name="value" onChange={handleChange} type="number" step={0.01} required />
             <StyledInput disabled={disabled} placeholder="Descrição" name="description" onChange={handleChange} type="text" maxLength={20} required />
